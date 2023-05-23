@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">counterapp</string>
+    <string name="app_name">Simple Counter</string>
+    <string name="increment_counter">Increment counter</string>
 </resources>
