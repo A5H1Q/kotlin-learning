@@ -1,5 +1,5 @@
-# Day-01 Simple Counter
+# Day-01 Simple Notes
 
-A simple counter app       
+A simple Notes app       
                 
 ![image](screenshots/Screenshot_20230524_182657.png)
