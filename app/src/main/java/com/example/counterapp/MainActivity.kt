@@ -7,10 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.counterapp.MainActivity.Companion.noteList
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -29,10 +32,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-//        noteList = mutableListOf<Note>()
         noteList = generateDummyNoteList()
 
-        noteAdapter = NoteAdapter(noteList)
+        noteAdapter = NoteAdapter(noteList, launcher, emptyNotesTxtView)
         recyclerView.adapter = noteAdapter
 
         updateEmptyNotesVisibility()
@@ -44,9 +46,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        Log.d("wtf", noteList.toString())
-        noteAdapter = NoteAdapter(noteList)
-        recyclerView.adapter = noteAdapter
+        updateEmptyNotesVisibility()
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 private fun generateDummyNoteList(): MutableList<Note> {
     val notes = mutableListOf<Note>()
@@ -65,7 +66,7 @@ private fun generateDummyNoteList(): MutableList<Note> {
     }
 }
 data class Note(val id: String, val content: String)
-class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val notes: List<Note>,private val launcher: ActivityResultLauncher<Intent>, private val emptyNotesTxtView : TextView) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -80,14 +81,31 @@ class NoteAdapter(private val notes: List<Note>) : RecyclerView.Adapter<NoteAdap
     override fun getItemCount(): Int {
         return notes.size
     }
+    private fun deleteNote(noteToDelete: Note) {
+        val position = noteList.indexOf(noteToDelete)
+        if (position != -1) {
+            noteList.removeAt(position)
+            notifyItemRemoved(position)
+            if (noteList.isEmpty()) {
+                emptyNotesTxtView.visibility = View.VISIBLE
+            } else {
+                emptyNotesTxtView.visibility = View.GONE
+            }
+        }
+    }
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val previewTextView: TextView = itemView.findViewById(R.id.titleTextView)
+        private val deleteIcon: ImageButton = itemView.findViewById(R.id.delBtn)
         init {
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, NewNote::class.java)
                 intent.putExtra("isNew", false)
                 intent.putExtra("noteId", notes[adapterPosition].id)
-                itemView.context.startActivity(intent)
+                launcher.launch(intent)
+            }
+
+            deleteIcon.setOnClickListener {
+                deleteNote(notes[adapterPosition])
             }
         }
         fun bind(note: Note) {

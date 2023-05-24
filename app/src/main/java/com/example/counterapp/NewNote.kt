@@ -3,6 +3,8 @@ package com.example.counterapp
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
@@ -26,11 +28,25 @@ class NewNote : AppCompatActivity() {
         multiTextView = findViewById(R.id.multiTextView)
         saveBtn = findViewById(R.id.savebtn)
 
+        // Add text change listener to the EditText
+        multiTextView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                validateEditText()
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+
+
+        // Run the validation initially
+        validateEditText()
 
         noteId = intent.getStringExtra("noteId") ?: ""
         if(noteId != "") getMatchingText(noteId)
         saveBtn.setOnClickListener {
-            if(isNew) addNote(multiTextView.text.toString()) else updateNote(noteId)
+            if(isNew) {addNote(multiTextView.text.toString()) }else{ updateNote(noteId)}
         }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -42,22 +58,21 @@ class NewNote : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    private fun validateEditText() {
+        saveBtn.isEnabled = multiTextView.text?.trim()?.isNotBlank() == true
+    }
 
     private fun addNote(txt:String){
         noteList.add(Note(generateRandomText(), txt))
         finish()
     }
     private fun updateNote(id: String){
-        Log.d("wtf","hello")
-        var allNotes= noteList
-        for ((i, note) in allNotes.withIndex()) {
+        for ((i, note) in noteList.withIndex()) {
             if (note.id == id) {
-                allNotes[i] = Note(id,multiTextView.text.toString())
+                noteList[i] = Note(id,multiTextView.text.toString())
                 break
             }
         }
-        noteList=allNotes
-        setResult(Activity.RESULT_OK)
         finish()
     }
     private fun getMatchingText(id: String){
