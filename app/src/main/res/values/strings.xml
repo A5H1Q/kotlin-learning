@@ -3,4 +3,6 @@
     <string name="empty_notes">No Notes found</string>
     <string name="delete_item">Delete item</string>
     <string name="add_new_note">Add New note</string>
+    <string name="save_note">Save Note</string>
+    <string name="type_here">Type here..</string>
 </resources>
