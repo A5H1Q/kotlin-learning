@@ -1,0 +1,37 @@
+<!-- list_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_rounded"
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="10dp"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#272727"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_weight="0"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/delete_item"
+        android:maxWidth="50dp"
+        android:minWidth="50dp"
+        app:tint="#673AB7"
+        app:srcCompat="@drawable/twotone_delete_24"
+        />
+
+</LinearLayout>
