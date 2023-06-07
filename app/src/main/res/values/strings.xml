@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Simple Counter</string>
-    <string name="increment_counter">Increment counter</string>
-    <string name="click_to_count">Tap \'+\' button to count</string>
-    <string name="counter_text">My Count: %d</string>
+    <string name="app_name">GET Requests</string>
+    <string name="increment_counter">send request</string>
+    <string name="click_to_count">Tap \'+\' send request</string>
+    <string name="counter_text">Received data: %d</string>
+    <string name="get">/GET</string>
 </resources>

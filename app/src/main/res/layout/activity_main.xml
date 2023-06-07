@@ -16,22 +16,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@android:color/white"
+        android:layout_gravity="end"
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="35dp"
-        android:background="#2196F3"
         android:clickable="true"
         android:contentDescription="@string/increment_counter"
         android:focusable="true"
+        android:text="@string/get"
+        android:textColor="#FFFFFF"
         app:backgroundTint="#2196F3"
         app:backgroundTintMode="@null"
+        app:icon="@drawable/baseline_send_24"
+        app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_add_24" />
-
+        app:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
